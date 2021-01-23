@@ -1,0 +1,41 @@
+<div class="container" style="margin-top: 10vh; margin-bottom: 5vh;">
+
+    <h4 class="text-center">
+        <span class="fas fa-chess-board"></span>
+        {{gameId}}
+        <span class="fas fa-gamepad ml-3"></span>
+        {{playerId}}
+        <span class="fas fa-chess ml-3 {{move.player.whiteSide ? 'text-light' : 'text-dark'}}"
+            style="text-shadow: 0 0 4px #000;"></span>
+    </h4>
+    <h3 class="text-center">{{status}}</h3>
+
+    <div class="row mt-5">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <table class="table" style="table-layout: fixed; width: 98%;" *ngIf='move.player.whiteSide'>
+                <tr *ngFor='let row of board; index as i;'>
+                    <td *ngFor='let spot of board[board.length - i - 1]'
+                        class="p-0 {{isValid(spot) ? 'block-container' : ''}}"
+                        id="spot{{spot.x}}{{spot.y}}" (click)='blockClicked(spot)'
+                        style="height: 8vh; max-width: 8vh; border: 1px black solid">
+                        <app-chessblock [spot]='spot' class="h-100 w-100"></app-chessblock>
+                    </td>
+                </tr>
+            </table>
+            <table class="table" style="table-layout: fixed; width: 98%;" *ngIf='!move.player.whiteSide'>
+                <tr *ngFor='let row of board;'>
+                    <td *ngFor='let spot of row; index as i;'
+                        class="p-0 {{isValid(row[row.length - 1 - i]) ? 'block-container' : ''}}"
+                        (click)='blockClicked(row[row.length - 1 - i])'
+                        id="spot{{row[row.length - 1 - i].x}}{{row[row.length - 1 - i].y}}"
+                        style="height: 8vh; max-width: 8vh; border: 1px black solid">
+                        <app-chessblock [spot]='row[row.length - 1 - i]' class="h-100 w-100"></app-chessblock>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+</div>

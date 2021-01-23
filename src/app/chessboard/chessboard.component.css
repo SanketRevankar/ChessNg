@@ -1,0 +1,7 @@
+.block-container:hover {
+    outline: 3px solid #4171ff;
+}
+
+.block-selected {
+    outline: 5px solid #4171ff;
+}
