@@ -75,7 +75,7 @@ export class ChessboardComponent implements OnInit {
     if (this.status === 'ACTIVE' && this.currentTurn == this.playerId) {
       if (this.move.start) {
         valid = true
-      } else if (this.move.player.whiteSide === spot.piece?.white) {
+      } else if (this.move.player.whiteSide === (spot.piece ? spot.piece.white : '')) {
         valid = true
       }
     }
