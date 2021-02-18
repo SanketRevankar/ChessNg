@@ -1,4 +1,5 @@
 export interface Player {
-    id: number
+    id: string
+    name: string
     whiteSide: boolean
 }

@@ -7,6 +7,7 @@ import { ChessserviceService } from '../chessservice.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  gameId: string = ''
 
   constructor(private chessserviceService: ChessserviceService) { }
 
@@ -15,7 +16,20 @@ export class DashboardComponent implements OnInit {
 
   startGame(): void {
     this.chessserviceService.start().subscribe(gameId => {
-        window.location.href = `/game/${gameId['gameId']}/1`
+      window.location.href = `/game/${gameId['gameId']}`
     })
   }
+
+  joinGame(): void {
+    if (this.gameId.match(/^[0-9a-fA-F]{24}$/)) {
+      this.chessserviceService.join(this.gameId).subscribe(gameId => {
+        window.location.href = `/game/${gameId['gameId']}`
+      })
+    }
+  }
+
+  isValidId(): boolean {
+    return !Boolean(this.gameId.match(/^[0-9a-fA-F]{24}$/))
+  }
+
 }

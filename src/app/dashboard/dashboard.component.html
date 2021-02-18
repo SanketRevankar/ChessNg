@@ -1,3 +1,27 @@
-<div class="container" style="margin-top: 10vh; margin-bottom: 5vh;">
-    <button class="btn btn-primary" (click)='startGame()'>Start Game</button>
+<div class="container w-25" style="margin-top: 15vh; margin-bottom: 5vh;">
+    <div class="card">
+        <div class="card-header bg-dark text-light text-center">
+            <h3>Play Chess</h3>
+        </div>
+        <div class="p-4">
+            <h5 class="card-title">Start a new Game</h5>
+            <p class="card-text mb-4">Create a new Game and wait for another player to join!</p>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" (click)='startGame()'>Start Game</button>
+            </div>
+        </div>
+        <hr class="m-0">
+        <div class="p-4">
+            <h5 class="card-title">Join existing Game</h5>
+            <p class="card-text mb-4">Enter the game id to join</p>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Enter Game Id" aria-label="Game Id"
+                    aria-describedby="button-addon2" [(ngModel)]='gameId'>
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="button-addon2" (click)='joinGame()'
+                        [disabled]='isValidId()'>Join Game</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

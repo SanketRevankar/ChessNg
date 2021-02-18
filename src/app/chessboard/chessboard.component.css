@@ -5,3 +5,10 @@
 .block-selected {
     outline: 5px solid #4171ff;
 }
+
+.black-outline {
+    text-shadow: 0 0 2px #000;
+}
+.white-outline {
+    text-shadow: 0 0 2px #fff;
+}

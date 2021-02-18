@@ -20,6 +20,10 @@ export class ChessserviceService {
     return this.http.get<any>(`${this.chessApi}start`);
   }
 
+  join(gameId: string): Observable<any> {
+    return this.http.post<any>(`${this.chessApi}join/${gameId}`, {});
+  }
+
   show(gameId: string): Observable<any> {
     return this.http.get<any>(`${this.chessApi}game/${gameId}`);
   }
