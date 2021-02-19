@@ -1,32 +1,46 @@
 <div class="container" style="margin-top: 10vh; margin-bottom: 5vh;" *ngIf='game && move'>
 
-    <div class="card-header text-light" style="background-color: #26272bde;">
-        <h4 class="text-center">
-            <span class="fas fa-chess-board"></span>
-            Game Id: {{game.id}}
-            <a class="far fa-copy text-light" [cdkCopyToClipboard]="this.game.id" (click)='copyGameId()'></a>
-        </h4>
-        <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-4 d-flex flex-column">
-                <h5 class="mb-0"><span
-                        class="fas fa-chess {{game.players[0].whiteSide ? 'text-light black-outline' : 'text-dark white-outline'}}"></span>
-                    {{game.players[0].name}}</h5>
-                <small>{{game.players[0].id}}</small>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="card-header text-light col-sm-8" style="background-color: #26272bde; border-radius: 5px;">
+            <h4 class="text-center p-2">
+                <span class="fas fa-chess-board"></span>
+                Game Id: {{game.id}}
+                <a class="far fa-copy text-light" [cdkCopyToClipboard]="this.game.id" (click)='copyGameId()'></a>
+            </h4>
+            <div class="row">
+                <div style="border-radius: 25px 0 0 25px;"
+                    class="col-sm-6 pl-4 d-flex flex-column {{game.players[0].whiteSide ? 'bg-chess-black text-chess-white' : 'bg-chess-white text-chess-black'}} p-2">
+                    <h5 class="mb-0">
+                        <span style="font-size: initial;"
+                            class="fas fa-chess mr-2 {{game.players[0].whiteSide ? 'text-light' : 'text-dark'}}"></span>
+                        <span style="vertical-align: middle;">{{game.players[0].name}}</span>
+                    </h5>
+                    <small>
+                        <i class="fas fa-hashtag mr-1" style="font-size: smaller;"></i>
+                        <span style="vertical-align: middle;">{{game.players[0].id}}</span>
+                    </small>
+                </div>
+                <div style="border-radius: 0 25px 25px 0;"
+                    class="col-sm-6 pr-4 d-flex align-items-end flex-column {{game.players[1].whiteSide ? 'bg-chess-black text-chess-white' : 'bg-chess-white text-chess-black'}} p-2">
+                    <h5 class="mb-0">
+                        <span style="vertical-align: middle;">{{game.players[1].name}}</span>
+                        <span style="font-size: initial;"
+                            class="fas fa-chess ml-2 {{game.players[1].whiteSide ? 'text-light' : 'text-dark'}}"></span>
+                    </h5>
+                    <small>
+                        <span style="vertical-align: middle;">{{game.players[1].id}}</span>
+                        <i class="fas fa-hashtag ml-1" style="font-size: smaller;"></i>
+                    </small>
+                </div>
             </div>
-            <div class="col-sm-4 d-flex align-items-end pr-5 flex-column">
-                <h5 class="mb-0">{{game.players[1].name}} <span
-                        class="fas fa-chess {{game.players[1].whiteSide ? 'text-light black-outline' : 'text-dark white-outline'}}"></span>
-                </h5>
-                <small>{{game.players[1].id}}</small>
-            </div>
-            <div class="col-sm-2"></div>
         </div>
+        <div class="col-sm-2"></div>
     </div>
     <div class="row mt-3">
         <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <table class="table" style="table-layout: fixed; width: 98%;" *ngIf='move.player.whiteSide'>
+        <div class="col-sm-8 p-0">
+            <table class="table" style="table-layout: fixed;" *ngIf='move.player.whiteSide'>
                 <tr *ngFor='let row of game.board.boxes; index as i;'>
                     <td *ngFor='let spot of game.board.boxes[7 - i]'
                         class="p-0 {{isValid(spot) ? 'block-container' : ''}}" id="spot{{spot.x}}{{spot.y}}"

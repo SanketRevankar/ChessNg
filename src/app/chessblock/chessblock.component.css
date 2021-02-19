@@ -1,0 +1,30 @@
+
+.black-outline {
+    text-shadow: 0 0 2px #000;
+}
+.white-outline {
+    text-shadow: 0 0 2px #fff;
+}
+
+.bg-chess-black {
+    background-color: #26272bde;
+}
+
+.bg-chess-white {
+    background-color: #b3b5c5de;
+}
+
+.text-chess-black{
+    color: #000;
+}
+
+.text-chess-white{
+    color: #fdffed;
+}
+
+.black-outline {
+    text-shadow: 0 0 4px #000;
+}
+.white-outline {
+    text-shadow: 0 0 4px #fff;
+}

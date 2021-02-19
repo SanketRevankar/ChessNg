@@ -7,10 +7,6 @@ import { Spot } from '../spot';
   styleUrls: ['./chessblock.component.css']
 })
 export class ChessblockComponent implements OnInit {
-  private pieceBlack: string = '#000'
-  private pieceWhite: string = '#fdffed'
-  private pieceBlackBorder: string = '0 0 4px #fff'
-  private pieceWhiteBorder: string = '0 0 4px #000'
   private blockBlack: string = '#26272bde'
   private blockWhite: string = '#b3b5c5de'
   // private blockBlack: string = '#8e614c' // classic
@@ -27,9 +23,7 @@ export class ChessblockComponent implements OnInit {
   ngOnInit(): void {
     this.blockColor = this.getblockColor(this.spot.x, this.spot.y)
     if (this.spot.piece) {
-      this.blockClass = this.getblockClass(this.spot.piece.name)
-      this.pieceColor = this.spot.piece.white ? this.pieceWhite : this.pieceBlack
-      this.pieceBorder = this.spot.piece.white ? this.pieceWhiteBorder : this.pieceBlackBorder
+      this.blockClass = this.getblockClass(this.spot.piece.name) + (this.spot.piece.white ? ' text-chess-white black-outline' : ' text-chess-black white-outline')
     }
   }
 

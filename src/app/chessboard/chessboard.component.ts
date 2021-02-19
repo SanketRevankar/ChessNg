@@ -127,6 +127,6 @@ export class ChessboardComponent implements OnInit {
   }
 
   copyGameId() {
-    this._snackBar.open('Copied!', 'Thanks!', { horizontalPosition: 'center', verticalPosition: 'top', panelClass: 'z-index-2000' });
+    this._snackBar.open('Gamd Id Copied!', 'Thanks!', { duration: 2000, horizontalPosition: 'center', verticalPosition: 'top' });
   }
 }
