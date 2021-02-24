@@ -21,7 +21,7 @@
                         <span style="vertical-align: middle;">{{game.players[0].id}}</span>
                     </small>
                 </div>
-                <div style="border-radius: 0 25px 25px 0;"
+                <div style="border-radius: 0 25px 25px 0;"  *ngIf='game.players[1].name'
                     class="col-sm-6 pr-4 d-flex align-items-end flex-column {{game.players[1].whiteSide ? 'bg-chess-black text-chess-white' : 'bg-chess-white text-chess-black'}} p-2">
                     <h5 class="mb-0">
                         <span style="vertical-align: middle;">{{game.players[1].name}}</span>
@@ -49,7 +49,7 @@
                     </td>
                 </tr>
             </table>
-            <table class="table" style="table-layout: fixed; width: 98%;" *ngIf='!move.player.whiteSide'>
+            <table class="table" style="table-layout: fixed;" *ngIf='!move.player.whiteSide'>
                 <tr *ngFor='let row of game.board.boxes;'>
                     <td *ngFor='let spot of row; index as i;'
                         class="p-0 {{isValid(row[row.length - 1 - i]) ? 'block-container' : ''}}"

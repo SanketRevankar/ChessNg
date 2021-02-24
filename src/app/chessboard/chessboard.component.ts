@@ -87,6 +87,13 @@ export class ChessboardComponent implements OnInit {
   }
 
   blockClicked(spot: Spot): void {
+    if (this.move.start) {
+      if (this.move.start === spot) {
+        this.clearClicked();
+        return
+      }
+    }
+      
     if (!this.isValid(spot) || this.move.end) {
       return
     }
@@ -103,11 +110,17 @@ export class ChessboardComponent implements OnInit {
     } else {
       this.move.start = spot
       $(`#spot${spot.x}${spot.y}`).addClass('block-selected')
+      this.move.start.piece.possibleMoves.map((s: Spot) => {
+        $(`#spot${s.x}${s.y}`).addClass('overlay')
+      })
     }
   }
 
   clearClicked(): void {
     $(`#spot${this.move.start.x}${this.move.start.y}`).removeClass('block-selected')
+    this.move.start.piece.possibleMoves.map((s: Spot) => {
+      $(`#spot${s.x}${s.y}`).removeClass('overlay')
+    })
     this.move = {
       gameId: this.game.id,
       player: this.getPlayer()
@@ -118,7 +131,7 @@ export class ChessboardComponent implements OnInit {
     let valid: boolean = false
     if (this.game.status === 'ACTIVE' && this.game.currentTurn.id == this.playerId) {
       if (this.move.start) {
-        valid = true
+        return this.move.start.piece.possibleMoves.some((s: Spot) => s.x === spot.x && s.y === spot.y)
       } else if (this.move.player.whiteSide === (spot.piece ? spot.piece.white : '')) {
         valid = true
       }
