@@ -32,3 +32,7 @@
 .overlay {
     box-shadow: inset 0 0 0 2000px #00fd2f;
 }
+
+.player-turn {
+    border-left: #316bff solid .5rem;
+}

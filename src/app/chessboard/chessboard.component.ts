@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChessserviceService } from '../chessservice.service';
 import { AuthenticationService } from '../authentication.service';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Spot } from '../spot';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { Game } from '../game';
+import { Move } from '../move';
 
 @Component({
   selector: 'app-chessboard',
@@ -14,12 +17,16 @@ import { Game } from '../game';
   styleUrls: ['./chessboard.component.css']
 })
 export class ChessboardComponent implements OnInit {
+  displayedColumns = ['move']
   game: Game
   playerId: any
   move: any
   subject: any
   serverUrl = '/ws/games'
   stompClient: any;
+  // @ts-ignore
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<Move>([]);
 
   constructor(private route: ActivatedRoute,
     private chessserviceService: ChessserviceService,
@@ -36,11 +43,16 @@ export class ChessboardComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator
+  }
+
   ngOnInit(): void {
     this.game.id = String(this.route.snapshot.paramMap.get('gameId'));
     this.chessserviceService.show(this.game.id).subscribe(data => {
       this.game = data
-
+      this.game.movesPlayed?.reverse()
+      this.dataSource = new MatTableDataSource<Move>(this.game.movesPlayed);
       this.move = {
         gameId: this.game.id,
         player: this.getPlayer()
@@ -71,6 +83,9 @@ export class ChessboardComponent implements OnInit {
       that.stompClient.subscribe("/topic/game/" + that.game.id, (data: Stomp.Frame) => {
         let game: Game = JSON.parse(data.body);
         that.game = game
+        game.movesPlayed?.reverse()
+        that.dataSource = new MatTableDataSource<Move>(game.movesPlayed);
+        that.dataSource.paginator = that.paginator
         that.move = {
           gameId: that.game.id,
           player: that.getPlayer()
@@ -93,7 +108,7 @@ export class ChessboardComponent implements OnInit {
         return
       }
     }
-      
+
     if (!this.isValid(spot) || this.move.end) {
       return
     }
@@ -142,4 +157,25 @@ export class ChessboardComponent implements OnInit {
   copyGameId() {
     this._snackBar.open('Gamd Id Copied!', 'Thanks!', { duration: 2000, horizontalPosition: 'center', verticalPosition: 'top' });
   }
+
+  getStatus() {
+    switch (this.game.status) {
+      case 'CREATED': return 'Created'
+      case 'ACTIVE': return 'Active'
+      case 'BLACK_WIN': return 'Winner - ' + (this.game.players[0].whiteSide ? this.game.players[1].name : this.game.players[0].name)
+      case 'WHITE_WIN': return 'Winner - ' + (this.game.players[0].whiteSide ? this.game.players[0].name : this.game.players[1].name)
+      default: return ''
+    }
+  }
+
+  getStatusClass() {
+    switch (this.game.status) {
+      case 'CREATED': return 'text-secondary'
+      case 'ACTIVE': return 'text-primary'
+      case 'BLACK_WIN':
+      case 'WHITE_WIN': return 'text-success'
+      default: return 'text-dark'
+    }
+  }
+
 }

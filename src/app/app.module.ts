@@ -15,6 +15,8 @@ import { TokenInterceptor } from './token.interceptor';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppRoutingModule,
     NoopAnimationsModule,
     ClipboardModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpXsrfInterceptor, multi: true },
