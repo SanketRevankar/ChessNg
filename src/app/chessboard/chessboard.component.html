@@ -1,4 +1,4 @@
-<div class="container-fluid" style="margin-top: 15vh; margin-bottom: 5vh;" [hidden]='!game && !move'>
+<div class="container-fluid" style="margin-top: 15vh; margin-bottom: 5vh;" [hidden]='!game || !move'>
 
     <div class="row">
         <div class="col-sm-1"></div>
@@ -42,16 +42,34 @@
             <hr class='bg-light'>
             <table mat-table [dataSource]="dataSource" class='bg-transparent w-100'>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                <ng-container matColumnDef="move">
-                    <th mat-header-cell *matHeaderCellDef> Start. </th>
+                <ng-container matColumnDef="piece_start">
                     <td mat-cell *matCellDef="let move">
                         <span
-                            class="mr-1 fas fa-chess-{{move.start?.piece?.name | lowercase}} {{move.start?.piece?.white ? 'text-chess-white' : 'text-chess-black'}}"></span>
+                            class="mr-2 fas fa-chess-{{move.start?.piece?.name | lowercase}} {{move.start?.piece?.white ? 'text-chess-white' : 'text-chess-black'}}"></span>
+                            <span class="text-light">{{move.start?.piece?.name}}</span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="pos_start">
+                    <td mat-cell *matCellDef="let move">
                         <span class="text-light">{{move.start?.x}} {{move.start?.y}}</span> 
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="arrow">
+                    <td mat-cell *matCellDef="let move">
                         <span class='ml-2 text-light mr-2 fas fa-arrow-alt-circle-right'></span>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="piece_end">
+                    <td mat-cell *matCellDef="let move">
                         <span class="text-light">{{move.end?.x}} {{move.end?.y}}</span> 
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="info">
+                    <td mat-cell *matCellDef="let move">
                         <span
-                            class="ml-1 fas fa-chess-{{move.pieceKilled?.name | lowercase}} {{move.start?.piece?.white ? 'text-chess-black' : 'text-chess-white'}}"></span>
+                            class="mr-2 fas fa-chess-{{move.pieceKilled?.name | lowercase}} {{move.start?.piece?.white ? 'text-chess-black' : 'text-chess-white'}}"></span>
+                            <span class="text-danger" *ngIf='move.pieceKilled'>{{move.pieceKilled?.name}} Killed</span>
+                            <span class="text-primary" *ngIf='move.castlingMove'>Castling</span>
                     </td>
                 </ng-container>
             </table>

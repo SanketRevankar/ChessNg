@@ -17,7 +17,7 @@ import { Move } from '../move';
   styleUrls: ['./chessboard.component.css']
 })
 export class ChessboardComponent implements OnInit {
-  displayedColumns = ['move']
+  displayedColumns = ['piece_start', 'pos_start', 'arrow', 'piece_end', 'info']
   game: Game
   playerId: any
   move: any
