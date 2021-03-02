@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChessserviceService } from '../chessservice.service';
 import { AuthenticationService } from '../authentication.service';
@@ -24,6 +24,7 @@ export class ChessboardComponent implements OnInit {
   subject: any
   serverUrl = '/ws/games'
   stompClient: any;
+  promotion = 'queen'
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource<Move>([]);
@@ -31,7 +32,8 @@ export class ChessboardComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private chessserviceService: ChessserviceService,
     private authenticationService: AuthenticationService,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    private zone: NgZone) {
     this.playerId = authenticationService.userValue.id
     this.game = {
       id: '',
@@ -53,6 +55,7 @@ export class ChessboardComponent implements OnInit {
       this.game = data
       this.game.movesPlayed?.reverse()
       this.dataSource = new MatTableDataSource<Move>(this.game.movesPlayed);
+      this.dataSource.paginator = this.paginator
       this.move = {
         gameId: this.game.id,
         player: this.getPlayer()
@@ -120,8 +123,11 @@ export class ChessboardComponent implements OnInit {
       }
 
       this.move.end = spot
-      this.chessserviceService.play(this.move).subscribe(data => { })
-      this.clearClicked()
+      if (this.move.start.piece.name == 'Pawn' && this.move.end.x === (this.move.start.piece.white ? 7 : 0)) {
+        $('#pawnPromotion').show()
+      } else {
+        this.playMove()
+      }
     } else {
       this.move.start = spot
       $(`#spot${spot.x}${spot.y}`).addClass('block-selected')
@@ -129,6 +135,22 @@ export class ChessboardComponent implements OnInit {
         $(`#spot${s.x}${s.y}`).addClass('overlay')
       })
     }
+  }
+
+  playMove(): void {
+    let move = jQuery.extend(true, {}, this.move)
+    delete move.start.piece
+    delete move.end.piece
+    console.log(move)
+    this.chessserviceService.play(move).subscribe(data => { })
+    this.clearClicked()
+  }
+
+  promoteMove(): void {
+    $('#pawnPromotion').hide()
+    this.move.pawnPromotion = this.promotion
+    this.playMove()
+    let move = jQuery.extend(true, {}, this.move)
   }
 
   clearClicked(): void {

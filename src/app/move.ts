@@ -1,13 +1,13 @@
 import { Player } from "./player";
-import { Piece } from "./piece";
 import { Spot } from "./spot";
 
 export interface Move {
     gameId: string
+    moveId: number
     player: Player
     start?: Spot
     end?: Spot
-    pieceMoved?: Piece
-    pieceKilled?: Piece
+    pieceKilled?: String
     castlingMove?: boolean
+    pawnPromotion?: string
 }

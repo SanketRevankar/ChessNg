@@ -8,7 +8,7 @@ declare var gapi: any;
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private loginUrl = '/api/login';
-  private usersUrl = '/api/user';
+  private usersUrl = '/api/user/';
   private userSubject: BehaviorSubject<User>;
   public user: Observable<User>;
   private auth2: any;
@@ -32,7 +32,6 @@ export class AuthenticationService {
 
   login(id_token: string, redirectTo: string) {
     return this.http.post<any>(this.loginUrl, {id_token: id_token}).subscribe(data => {
-      console.log(data)
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('auth', data['token'])
       this.userSubject.next(data);
@@ -41,7 +40,8 @@ export class AuthenticationService {
   }
 
   updateUser(user: User) {
-    return this.http.put<any>(this.usersUrl, { user: user }).subscribe(data => {
+    return this.http.patch<any>(this.usersUrl + this.userValue.id, user).subscribe(data => {
+      data['id'] = this.userValue.id
       localStorage.setItem('user', JSON.stringify(data));
       this.userSubject.next(data);
       window.location.reload();
@@ -49,8 +49,9 @@ export class AuthenticationService {
   }
 
   deleteUser() {
-    return this.http.delete<any>(this.usersUrl).subscribe(data => {
+    return this.http.delete<any>(this.usersUrl + this.userValue.id).subscribe(data => {
       this.logout();
+      window.location.href = '/';
     })
   }
 

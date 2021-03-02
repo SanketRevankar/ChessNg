@@ -7,11 +7,11 @@ import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'user', component: UserComponent },
+  { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
   { path: 'game/:gameId', component: ChessboardComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full', canActivate: [AuthGuard] }
 ];
 
 @NgModule({
