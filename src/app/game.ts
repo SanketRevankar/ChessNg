@@ -10,5 +10,5 @@ export interface Game {
     status: string
     currentMoveNumber?: number
     movesPlayed?: Move[]
-
+    check: boolean
 }

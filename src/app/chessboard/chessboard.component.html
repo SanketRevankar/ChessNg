@@ -94,7 +94,7 @@
             <table class="table mb-0" style="table-layout: fixed;" *ngIf='move?.player.whiteSide'>
                 <tr *ngFor='let row of game?.board?.boxes; index as i;'>
                     <td *ngFor='let spot of game.board.boxes[7 - i]'
-                        class="p-0 {{isValid(spot) ? 'block-container' : ''}}" id="spot{{spot.x}}{{spot.y}}"
+                        class="p-0 {{isValid(spot) ? 'block-container' : ''}} {{isCheck(spot) ? 'block-check' : ''}}" id="spot{{spot.x}}{{spot.y}}"
                         (click)='blockClicked(spot)' style="height: 8vh; max-width: 8vh; border: 1px black solid">
                         <app-chessblock [spot]='spot' class="h-100 w-100"></app-chessblock>
                     </td>
@@ -103,7 +103,7 @@
             <table class="table mb-0" style="table-layout: fixed;" *ngIf='!move?.player.whiteSide'>
                 <tr *ngFor='let row of game?.board?.boxes;'>
                     <td *ngFor='let spot of row; index as i;'
-                        class="p-0 {{isValid(row[row.length - 1 - i]) ? 'block-container' : ''}}"
+                        class="p-0 {{isValid(row[row.length - 1 - i]) ? 'block-container' : ''}} {{isCheck(row[row.length - 1 - i]) ? 'block-check' : ''}}" 
                         (click)='blockClicked(row[row.length - 1 - i])'
                         id="spot{{row[row.length - 1 - i].x}}{{row[row.length - 1 - i].y}}"
                         style="height: 8vh; max-width: 8vh; border: 1px black solid">

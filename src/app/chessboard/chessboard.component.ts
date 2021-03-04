@@ -41,7 +41,8 @@ export class ChessboardComponent implements OnInit {
       board: { boxes: [] },
       currentTurn: { id: '', name: '', whiteSide: false },
       status: '',
-      movesPlayed: []
+      movesPlayed: [],
+      check: false,
     }
   }
 
@@ -141,7 +142,6 @@ export class ChessboardComponent implements OnInit {
     let move = jQuery.extend(true, {}, this.move)
     delete move.start.piece
     delete move.end.piece
-    console.log(move)
     this.chessserviceService.play(move).subscribe(data => { })
     this.clearClicked()
   }
@@ -150,7 +150,6 @@ export class ChessboardComponent implements OnInit {
     $('#pawnPromotion').hide()
     this.move.pawnPromotion = this.promotion
     this.playMove()
-    let move = jQuery.extend(true, {}, this.move)
   }
 
   clearClicked(): void {
@@ -198,6 +197,10 @@ export class ChessboardComponent implements OnInit {
       case 'WHITE_WIN': return 'text-success'
       default: return 'text-dark'
     }
+  }
+
+  isCheck(spot: Spot): boolean {
+    return this.game.check && spot.piece?.name == 'King' && spot.piece?.white == this.game.currentTurn?.whiteSide
   }
 
 }
